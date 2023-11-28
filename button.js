@@ -54,7 +54,7 @@ CTRL.add(CONFIG, 'spread', 10, 180, 1).name('Spread (deg)').onChange(UPDATE)
 CTRL.add(CONFIG, 'thickness', 1, 10, 1).name('Thickness (px)').onChange(UPDATE)
 CTRL.add(CONFIG, 'radius', 0, 100, 1).name('Radius (px)').onChange(UPDATE)
 CTRL.add(CONFIG, 'constant').name('Show Glows').onChange(UPDATE)
-CTRL.add(CONFIG, 'exploded').name('Explode').onChange(TOGGLE)
+CTRL.add(CONFIG, 'exploded').name('Explode').onChange(TOGGLE) // test comment
 
 
 UPDATE()
