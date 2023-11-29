@@ -1,33 +1,4 @@
-<!DOCTYPE html>
-<html lang="en" >
 
-<head>
-  <meta charset="UTF-8">
-  
-
-    <link rel="apple-touch-icon" type="image/png" href="https://cpwebassets.codepen.io/assets/favicon/apple-touch-icon-5ae1a0698dcc2402e9712f7d01ed509a57814f994c660df9f7a952f3060705ee.png" />
-
-    <meta name="apple-mobile-web-app-title" content="CodePen">
-
-    <link rel="shortcut icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico" />
-
-    <link rel="mask-icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/logo-pin-b4b4269c16397ad2f0f7a01bcdf513a1994f4c94b8af2f191c09eb0d601762b1.svg" color="#111" />
-
-
-
-  
-    <script src="https://cpwebassets.codepen.io/assets/common/stopExecutionOnTimeout-2c7831bb44f98c1391d6a4ffda0e1fd302503391ca806e7fcc7b9b87197aec26.js"></script>
-
-
-  <title>CodePen - Glowy Border Shimmer Button? 😅 (w/ Container Queries) </title>
-
-    <link rel="canonical" href="https://codepen.io/jh3y/pen/vYbyKeL">
-  
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
-
-  
-  
-<style>
 @font-face {
   font-family: "Geist Sans";
   src: url("https://assets.codepen.io/605876/GeistVF.ttf") format("truetype");
@@ -48,6 +19,8 @@
 	--active: 0;
 	--glow-spread: calc(var(--spread) * 1deg);
 	--bg: hsl(0 0% 0%);
+	--dark: #ffffff;
+  --color: var(--dark);
 }
 
 body {
@@ -86,7 +59,7 @@ button {
 	border: 0;
   place-items: center;
 	white-space: nowrap;
-	border-radius: var(--border-radius);
+	border-radius: calc(var(--border-radius, 8) * 1px);/*var(--border-radius);*/
 	position: relative;
 	box-shadow:
 	  0 0.025em 0.4em -0.02em hsl(0 0% 100% / 0.25),
@@ -103,7 +76,7 @@ button::before {
 	position: absolute;
 	inset: 0;
 	border: 1px solid hsl(var(--hue) var(--saturation) 80% / 0.3);
-	border-radius: var(--border-radius);
+	border-radius: calc(var(--border-radius, 8) * 1px);/*var(--border-radius);*/
 	pointer-events: none;
 }
 
@@ -155,7 +128,7 @@ button:active {
 		) padding-box,
 		linear-gradient(hsl(var(--hue) var(--saturation) 5%), hsl(var(--hue) var(--saturation) 4%)) padding-box;
 	border: var(--border-width) solid transparent;
-	border-radius: var(--border-radius);
+	border-radius: calc(var(--border-radius, 8) * 1px);/*var(--border-radius);*/
 	transition: background var(--transition) opacity var(--transition);
 /*	opacity: 0;*/
 }
@@ -319,7 +292,7 @@ button .spark {
 	background: transparent;
 }
 button .spark__container {
-	border-radius: var(--border-radius);
+	border-radius: calc(var(--border-radius, 8) * 1px);/*var(--border-radius);*/
 	opacity: 0;
 }
 
@@ -656,7 +629,7 @@ article {
     var(--gradient) border-box;
   border: calc(var(--border-width, 2) * 1px) solid transparent;
 /*  padding: 2rem;*/
-/*  border-radius: calc(var(--border-radius, 8) * 1px);*/
+  border-radius: calc(var(--border-radius, 8) * 1px);
 /*  width: 26ch;*/
 width:289px;
 	height:102px;
@@ -681,109 +654,123 @@ article:not(.faux)::before {
   transition: opacity 0.2s;
 }
 
-</style>
-
-  <script>
-  window.console = window.console || function(t) {};
-</script>
-
-  
-  
-</head>
-
-<body translate="no">
-	<section>  
-  
-  <article class="card">
-  <div class="scene">
-      <button>
-        <span class="measurements">
-          <span class="width">100cqw</span>
-          <span class="height">100cqh</span>
-        </span>
-        <span class="glows">
-          <span class="spark__container spark__glows">
-            <span class="spark"></span>  
-            <span class="spark"></span>  
-          </span>
-        </span>
-        <span class="spark__container">
-          <span class="spark"></span>  
-          <span class="spark"></span>  
-        </span>
-        <span class="spark__container spark__container--reveal">
-          <span class="spark"></span>  
-          <span class="spark"></span>  
-        </span>
-        <span class="backdrop"></span>
-        <span class="text">
-          Deploy
-        </span>
-        
-      </button>
-    </div>
-    </article>
-  
-</section>
-  
-      <script id="rendered-js" type="module">
-import { GUI } from 'https://cdn.skypack.dev/dat.gui';
-
-const SCENE = document.querySelector('.scene');
-const BUTTON_TEXT = document.querySelector('.text');
-
-const ARTICLE = document.querySelector("article");
-const SECTION = document.querySelector('section');
-
-
-const CONFIG = {
-  text: "Deploy",
-  hue: 180,
-  //alpha: 1,
-  window: 1.4,
-  speed: 1,
-  blur: 10,
-  spread: 120,
-  thickness: 2,
-  radius: 1,
-  border: 3,
-  speed: 2,
-   constant: false,
-   exploded: false};
+/* 2 */
 
 
 
-const UPDATE = () => {
-  console.info('cool');
-  for (const KEY of Object.keys(CONFIG)) {
-    if (KEY === 'exploded' || KEY === 'constant') break;
-    document.documentElement.style.setProperty(`--${KEY}`, CONFIG[KEY]);
+span.buttonspan {
+  max-width: 300px;
+	display: block;
+}
+span.butionspan:nth-of-type(1) {
+  position: absolute;
+  opacity: 0;
+}
+.word {
+  position: relative;
+  display: inline-block;
+}
+[data-char] {
+  color: transparent;
+  position: relative;
+}
+[data-char]:after {
+  --txt: attr(data-char);
+  -webkit-animation-duration: 0.2s;
+          animation-duration: 0.2s;
+  -webkit-animation-delay: 0.5s;
+          animation-delay: 0.5s;
+  -webkit-animation-timing-function: steps(1);
+          animation-timing-function: steps(1);
+  -webkit-animation-fill-mode: backwards;
+          animation-fill-mode: backwards;
+  content: var(--txt);
+  color: var(--color);
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+/**
+ * Themeing
+*/
+.page {
+  align-items: center;
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  position: relative;
+/*  scroll-snap-align: center;*/
+  width: 100vw;
+}
+
+@-webkit-keyframes glitch-switch {
+  0% {
+    content: var(--char-0);
   }
-  document.body.dataset.showGlows = CONFIG.constant;
-
-	SECTION.style.setProperty("--border-width", CONFIG.border);
-  SECTION.style.setProperty("--border-radius", CONFIG.radius);
-  SECTION.style.setProperty("--border-speed", CONFIG.speed);
-};
-
-
-const TOGGLE = () => {
-  const exploded = CONFIG.exploded;  
-  if (!exploded) {    
-    const TRANSITION = SCENE.getAnimations();
+  10% {
+    content: var(--char-1);
   }
-};
-
-const CHANGE_LABEL = () => {
-  BUTTON_TEXT.innerText = CONFIG.text;
-};
-
-UPDATE();
-
-//# sourceURL=pen.js
-    </script>
-
-  
-</body>
-
-</html>
+  20% {
+    content: var(--char-2);
+  }
+  30% {
+    content: var(--char-3);
+  }
+  40% {
+    content: var(--char-4);
+  }
+  50% {
+    content: var(--char-5);
+  }
+  60% {
+    content: var(--char-6);
+  }
+  70% {
+    content: var(--char-7);
+  }
+  80% {
+    content: var(--char-8);
+  }
+  90% {
+    content: var(--char-9);
+  }
+  100% {
+    content: var(--char-0);
+  }
+}
+@keyframes glitch-switch {
+  0% {
+    content: var(--char-0);
+  }
+  10% {
+    content: var(--char-1);
+  }
+  20% {
+    content: var(--char-2);
+  }
+  30% {
+    content: var(--char-3);
+  }
+  40% {
+    content: var(--char-4);
+  }
+  50% {
+    content: var(--char-5);
+  }
+  60% {
+    content: var(--char-6);
+  }
+  70% {
+    content: var(--char-7);
+  }
+  80% {
+    content: var(--char-8);
+  }
+  90% {
+    content: var(--char-9);
+  }
+  100% {
+    content: var(--char-0);
+  }
+}
+/* 2 end */
